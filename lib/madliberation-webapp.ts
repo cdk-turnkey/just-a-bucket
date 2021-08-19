@@ -456,7 +456,7 @@ export class MadliberationWebapp extends cdk.Stack {
     new cdk.CfnOutput(this, "UserPoolClientId", {
       value: userPoolClient.userPoolClientId,
     });
-    new cdk.CfnOutput(this, "ScriptsBucketName", {
+    new cdk.CfnOutput(this, "ContentBucketName", {
       value: scriptsBucket.bucketName,
     });
     new cdk.CfnOutput(this, "TableName", { value: sedersTable.tableName });
