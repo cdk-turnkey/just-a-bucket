@@ -30,24 +30,9 @@ jobs:
         run: |
           npm install
 
-      - name: Install frontend
-        working-directory: frontend
-        run: |
-          npm install
-
       - name: Build
         run: |
           npm run build
-
-      - name: Build frontend
-        working-directory: frontend
-        run: |
-          npm run build
-
-      - name: Test frontend
-        working-directory: frontend
-        run: |
-          npm test
 
       - name: Install content
         working-directory: content
@@ -90,14 +75,6 @@ jobs:
           npx cdk bootstrap
           STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix webapp)
           npx cdk deploy --require-approval never ${STACKNAME}
-
-      - name: Deploy to the frontend bucket (test account)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          bash scripts/deploy-frontend.sh
 
       - name: Deploy content (test account)
         working-directory: content
@@ -142,14 +119,6 @@ jobs:
           STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix webapp)
           npx cdk deploy --require-approval never ${STACKNAME}
 
-      - name: Deploy to the frontend bucket (prod account)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          bash scripts/deploy-frontend.sh
-
       - name: Deploy content (prod account)
         working-directory: content
         env:
@@ -187,14 +156,6 @@ jobs:
           npx cdk bootstrap
           STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix webapp)
           npx cdk deploy --require-approval never ${STACKNAME}
-
-      - name: Deploy to the frontend bucket (prod2 account)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD2_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD2_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          bash scripts/deploy-frontend.sh
 
       - name: Deploy content (prod2 account)
         working-directory: content
