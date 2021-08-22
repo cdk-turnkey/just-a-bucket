@@ -77,7 +77,7 @@ const stackname = require("@cdk-turnkey/stackname");
   console.log("and zoneId:");
   console.log(appProps.zoneId);
   // TODO: print a hash of the IDP app secrets
-  new Stack(app, stackname(), {
+  new Stack(app, stackname("app"), {
     ...(appProps as StackProps),
   });
 })();
