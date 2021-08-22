@@ -76,6 +76,15 @@ jobs:
         run: |
           bash deploy-content.sh
 
+      - name: Run integration test (test account)
+        working-directory: itest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
+        run: |
+          bash itest.sh
+
       - name: Identify prod account and region
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
@@ -103,3 +112,12 @@ jobs:
           AWS_DEFAULT_REGION: "us-east-1"
         run: |
           bash deploy-content.sh
+
+      - name: Run integration test (prod account)
+        working-directory: itest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
+        run: |
+          bash itest.sh
