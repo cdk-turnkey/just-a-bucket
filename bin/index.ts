@@ -24,9 +24,7 @@ const stackname = require("@cdk-turnkey/stackname");
       this.appParamName = appParamName;
     }
   }
-  const configParams: Array<ConfigParam> = [
-    new ConfigParam("customProp"),
-  ];
+  const configParams: Array<ConfigParam> = [new ConfigParam("customProp")];
   const ssmParams = {
     Names: configParams.map((c) => c.ssmParamName()),
     WithDecryption: true,
@@ -72,7 +70,6 @@ const stackname = require("@cdk-turnkey/stackname");
   // Param validation
   if (appProps.customProp) {
     // Validate the customProp, if provided
-    }
   }
   console.log("bin: Instantiating stack with fromAddress:");
   console.log(appProps.fromAddress);
