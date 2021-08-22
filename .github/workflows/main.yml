@@ -48,15 +48,6 @@ jobs:
         run: |
           npm test
 
-      - name: Identity provider app secret roll call
-        env:
-          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-          GOOGLE_APP_SECRET: ${{ secrets.GOOGLE_APP_SECRET }}
-          AMAZON_APP_SECRET: ${{ secrets.AMAZON_APP_SECRET }}
-          APPLE_APP_SECRET: ${{ secrets.APPLE_APP_SECRET }}
-        run: |
-          node scripts/idp-app-secret-roll-call.js
-
       - name: Identify test account and region
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
@@ -66,7 +57,7 @@ jobs:
           aws sts get-caller-identity
           echo ${AWS_DEFAULT_REGION} | sed 's/-/+/g'
 
-      - name: Deploy the webapp stack to the test account
+      - name: Deploy the app stack to the test account
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
@@ -94,7 +85,7 @@ jobs:
           aws sts get-caller-identity
           echo ${AWS_DEFAULT_REGION} | sed 's/-/+/g'
 
-      - name: Deploy the webapp stack to the prod account
+      - name: Deploy the app stack to the prod account
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
@@ -109,34 +100,6 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          bash deploy-content.sh
-
-      - name: Identify prod2 account and region
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD2_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD2_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          aws sts get-caller-identity
-          echo ${AWS_DEFAULT_REGION} | sed 's/-/+/g'
-
-      - name: Deploy the webapp stack to the prod2 account
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD2_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD2_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-1"
-        run: |
-          npx cdk bootstrap
-          STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix app)
-          npx cdk deploy --require-approval never ${STACKNAME}
-
-      - name: Deploy content (prod2 account)
-        working-directory: content
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD2_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD2_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-1"
         run: |
           bash deploy-content.sh
