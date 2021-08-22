@@ -8,7 +8,7 @@ BUCKET_NAME=$(aws cloudformation describe-stacks \
 CONTENT_DATA="$(aws s3 cp s3://${BUCKET_NAME}/content.json - | \
   jq '.Data' | \
   tr -d \")"
-EXPECTED_DATA="deliberate error"
+EXPECTED_DATA="Something"
 if [[ "${CONTENT_DATA}" != "${EXPECTED_DATA}" ]]
 then
   echo "Integration test failed. Expected content data:"
