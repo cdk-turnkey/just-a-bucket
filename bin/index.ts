@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import * as cdk from "@aws-cdk/core";
-import { Console } from "console";
 const AWS = require("aws-sdk");
 const crypto = require("crypto");
 import { Stack, StackProps } from "../lib";
