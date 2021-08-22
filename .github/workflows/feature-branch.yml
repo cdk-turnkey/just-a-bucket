@@ -57,14 +57,14 @@ jobs:
           aws sts get-caller-identity
           echo ${AWS_DEFAULT_REGION} | sed 's/-/+/g'
 
-      - name: Deploy the webapp stack to dev account
+      - name: Deploy the app stack to dev account
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-1"
         run: |
           npx cdk bootstrap
-          STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix webapp)
+          STACKNAME=$(npx @cdk-turnkey/stackname@1.2.0 --suffix app)
           npx cdk deploy --require-approval never ${STACKNAME}
 
       - name: Deploy content (dev account)
