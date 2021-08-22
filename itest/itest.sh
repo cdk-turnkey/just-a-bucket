@@ -5,7 +5,7 @@ BUCKET_NAME=$(aws cloudformation describe-stacks \
   --stack-name ${STACKNAME} | \
   jq '.Stacks[0].Outputs | map(select(.OutputKey == "BucketName"))[0].OutputValue' | \
   tr -d \")
-CONTENT_DATA="$(aws s3 cp s3://${BUCKETNAME}/content.json - | \
+CONTENT_DATA="$(aws s3 cp s3://${BUCKET_NAME}/content.json - | \
   jq '.Data' | \
   tr -d \")"
 EXPECTED_DATA="deliberate error"
