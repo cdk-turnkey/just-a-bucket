@@ -3,7 +3,7 @@ set -e
 STACKNAME=$(npx @cdk-turnkey/stackname@1.1.0 --suffix app)
 BUCKET_NAME=$(aws cloudformation describe-stacks \
   --stack-name ${STACKNAME} | \
-  jq '.Stacks[0].Outputs | map(select(.OutputKey == "ContentBucketName"))[0].OutputValue' | \
+  jq '.Stacks[0].Outputs | map(select(.OutputKey == "BucketName"))[0].OutputValue' | \
   tr -d \")
 mkdir -p deploy
 cp *.json deploy/
