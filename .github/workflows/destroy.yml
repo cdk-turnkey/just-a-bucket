@@ -1,4 +1,5 @@
 name: Destroy
+concurrency: ci-${{ github.ref }}
 
 on:
   workflow_dispatch:
